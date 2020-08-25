@@ -20,7 +20,7 @@ export default new Router({
       component: ListComentarios
     },
     {
-      path: '/dataset/consulta',
+      path: '/consulta',
       name: 'FormularioConsultaComentario',
       component: FormularioConsultaComentario
     }
