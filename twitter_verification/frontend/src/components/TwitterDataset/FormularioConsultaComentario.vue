@@ -42,7 +42,7 @@ export default {
       //Dato del imput del TextArea
       comentario: "",
       perfil: "",
-      cantidad_palabras: 0, //
+      cantidad_palabras: 8, //
       comentarios_repetidos: 0,//
       insultos: 0,//
       emoticones: 0,
@@ -50,8 +50,7 @@ export default {
       links: 0,//
       comentarios_raros: 0,
       label: "",
-
-      respuesta: null,
+      respuesta: [],
       dataset: [],
       lista_insultos: [
         { insulto: "rata", numero: "1" },
@@ -261,31 +260,36 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      this.consultarDatasetCompleto();
-      this.contarPalabras(this.comentario);
-      this.tieneComentarios_repetidos();
-      this.tieneInsultosLinks();
+      //this.consultarDatasetCompleto();
+      //this.contarPalabras(this.comentario);
+      //this.tieneComentarios_repetidos();
+      //this.tieneInsultosLinks();
 
-      var path = `http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/${this.comentarios_repetidos}/${this.insultos}/${this.emoticones}/${this.multimedia}`;
+      //var path = //`http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/${this.comentarios_repetidos}/${this.insultos}/${this.emoticones}/${this.multimedia}`;
+      var path = `http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/`;
       axios
         .get(path, { responseType: "json" })
-        .then((response) => {
+        .then(response => {
           this.respuesta = response.data;
         })
         .catch((error) => {
           console.log(error);
         });
-
-        alert(respuesta);
+        console.log('*************************************')
+        console.log( this.respuesta[0]);
+        console.log( this.respuesta[1]);
+        console.log( this.respuesta[2]);
+        console.log( this.respuesta[3]);
+        console.log( response.data[1]);
     },
 
     consultarDatasetCompleto() {
       evt.preventDefault();
 
-      var path = `http://localhost:8000/api/dataset/`;
+      path = `http://localhost:8000/api/dataset/`;
       axios
         .get(path, { responseType: "json" })
-        .then((response) => {
+        .then(response => {
           this.dataset = response.data;
         })
         .catch((error) => {

@@ -28,6 +28,6 @@ def generarKmeans(*args, **kwargs):
     # queryset = NewVideo.objects.filter(labeled__exact=True).filter(predicted_moods__iexact=mood)
     # data = list(queryset.values("video_id", "video_title", "predicted_moods", "video_type"))
 
-
-    data = list( "es verdadero")
+    dicc = {2,'dos', 'ocho',  4}
+    data = list( dicc)
     return JsonResponse(data, safe=False)
