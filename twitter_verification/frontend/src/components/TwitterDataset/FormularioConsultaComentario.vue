@@ -43,14 +43,13 @@ export default {
       comentario: "",
       perfil: "",
       cantidad_palabras: 8, //
-      comentarios_repetidos: 0,//
-      insultos: 0,//
+      comentarios_repetidos: 0, //
+      insultos: 0, //
       emoticones: 0,
       multimedia: 0,
-      links: 0,//
+      links: 0, //
       comentarios_raros: 0,
       label: "",
-      respuesta: [],
       dataset: [],
       lista_insultos: [
         { insulto: "rata", numero: "1" },
@@ -260,36 +259,34 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      //this.consultarDatasetCompleto();
+      var respuesta = [];
+      //this.consultarDatasetCompleto(evt);
       //this.contarPalabras(this.comentario);
       //this.tieneComentarios_repetidos();
       //this.tieneInsultosLinks();
 
       //var path = //`http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/${this.comentarios_repetidos}/${this.insultos}/${this.emoticones}/${this.multimedia}`;
       var path = `http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/`;
+
       axios
-        .get(path, { responseType: "json" })
-        .then(response => {
-          this.respuesta = response.data;
+        .get(`http://localhost:8000/api/datos-twitter/2/`, { responseType: "json" })
+        .then((response) => {
+          respuesta = [ ...response.data];
+          respuesta.push("tres");
+          console.log( respuesta);
         })
         .catch((error) => {
           console.log(error);
         });
-        console.log('*************************************')
-        console.log( this.respuesta[0]);
-        console.log( this.respuesta[1]);
-        console.log( this.respuesta[2]);
-        console.log( this.respuesta[3]);
-        console.log( response.data[1]);
     },
 
-    consultarDatasetCompleto() {
+    consultarDatasetCompleto(evt) {
       evt.preventDefault();
 
-      path = `http://localhost:8000/api/dataset/`;
+      var path = `http://localhost:8000/api/dataset/`;
       axios
         .get(path, { responseType: "json" })
-        .then(response => {
+        .then((response) => {
           this.dataset = response.data;
         })
         .catch((error) => {
@@ -299,14 +296,14 @@ export default {
 
     //Metodo que se encarga de contar las palabras de un comentario
     contarPalabras(coment) {
-      primerBlanco = /^ /;
-      ultimoBlanco = / $/;
+      let primerBlanco = /^ /;
+      let ultimoBlanco = / $/;
       variosBlancos = /[ ]+/g;
 
       coment = coment.replace(variosBlancos, " ");
       coment = coment.replace(primerBlanco, "");
       coment = coment.replace(ultimoBlanco, "");
-      textoTroceado = coment.split(coment, " ");
+      let textoTroceado = coment.split(coment, " ");
       this.cantidad_palabras = textoTroceado.length;
     },
 
@@ -323,7 +320,7 @@ export default {
       var arregloPalabras = this.comentario.split(" ");
 
       for (var i = 0; i < arregloPalabras.length; i++) {
-        if (arregloPalabras[i].startsWith('http')) {
+        if (arregloPalabras[i].startsWith("http")) {
           this.comentarios_repetidos = 1;
           break;
         }
