@@ -114,11 +114,10 @@ def generarKmeans(*args, **kwargs):
     comentarios_raros_n = df_escalado_nuevo['comentarios_raros'][2603]
 
     #  Tupla nueva
-    X_new = tuple(np.array([[cant_palabras_n, comentarios_repetidos_n, insultos_n, emoticones_n, multimedia_n, links_n, comentarios_raros_n]]))
-    #X_new = pd.DataFrame([[cant_palabras_n, comentarios_repetidos_n, insultos_n, emoticones_n, multimedia_n, links_n, comentarios_raros_n]])
+    X_new = np.array([[cant_palabras_n, comentarios_repetidos_n, insultos_n, emoticones_n, multimedia_n, links_n, comentarios_raros_n]])
+    # X_new = pd.DataFrame([[cant_palabras_n, comentarios_repetidos_n, insultos_n, emoticones_n, multimedia_n, links_n, comentarios_raros_n]])
     new_labels = kmeans.predict(X_new)
-    print('La cuenta cumple las condiciones para ser: ')
-    print(new_labels)
 
-    data = list({new_labels})
+    data = list({str(new_labels)})
+    #data = list({"algo"})
     return JsonResponse(data, safe=False)
