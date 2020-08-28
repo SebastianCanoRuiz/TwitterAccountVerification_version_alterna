@@ -13,10 +13,8 @@ from rest_framework import viewsets
 from django.http import JsonResponse
 
 from pandas import pandas as pd
-# from numpy import numpy as np
 from sklearn import preprocessing
 from sklearn.cluster import KMeans
-#import matplotlib.pyplot as plt
 
 # Create your views here.
 class TwitterComentariosAPI(generics.ListCreateAPIView):
@@ -118,6 +116,6 @@ def generarKmeans(*args, **kwargs):
     # X_new = pd.DataFrame([[cant_palabras_n, comentarios_repetidos_n, insultos_n, emoticones_n, multimedia_n, links_n, comentarios_raros_n]])
     new_labels = kmeans.predict(X_new)
 
-    data = list({str(new_labels)})
-    #data = list({"algo"})
+    #data = list({str(new_labels)})
+    data = list({kwargs.get('cantidad_palabras')})
     return JsonResponse(data, safe=False)

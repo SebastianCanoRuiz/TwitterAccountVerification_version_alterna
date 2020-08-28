@@ -42,7 +42,7 @@ export default {
       //Dato del imput del TextArea
       comentario: "",
       perfil: "",
-      cantidad_palabras: 8, //
+      cantidad_palabras: 9, //
       comentarios_repetidos: 0, //
       insultos: 0, //
       emoticones: 0,
@@ -259,21 +259,40 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      var respuesta = [];
+      //var respuesta = [];
       //this.consultarDatasetCompleto(evt);
-      //this.contarPalabras(this.comentario);
+
+      //Validacion para el campo cantidad_palabras
+      this.contarPalabras(this.comentario);
       //this.tieneComentarios_repetidos();
       //this.tieneInsultosLinks();
+
+      // var primerBlanco = /^ /;
+      // var ultimoBlanco = / $/;
+      // var variosBlancos = /[ ]+/g;
+
+      // this.comentario = this.comentario.replace(variosBlancos, " ");
+      // this.comentario = this.comentario.replace(primerBlanco, "");
+      // this.comentario = this.comentario.replace(ultimoBlanco, "");
+      // var textoTroceado = this.comentario.split(this.comentario, " ");
+      // this.cantidad_palabras = textoTroceado.length;
+
+
+
+      // console.log(typeof this.comentario);
+      // console.log(this.cantidad_palabras);
+
+
+
 
       //var path = //`http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/${this.comentarios_repetidos}/${this.insultos}/${this.emoticones}/${this.multimedia}`;
       var path = `http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/`;
 
       axios
-        .get(`http://localhost:8000/api/datos-twitter/2/`, { responseType: "json" })
+        .get(path, { responseType: "json" })
         .then((response) => {
-          respuesta = [ ...response.data];
-          respuesta.push("tres");
-          console.log( respuesta);
+          //respuesta = [ ...response.data];
+          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -283,11 +302,17 @@ export default {
     consultarDatasetCompleto(evt) {
       evt.preventDefault();
 
-      var path = `http://localhost:8000/api/dataset/`;
       axios
-        .get(path, { responseType: "json" })
+        .get(`http://localhost:8000/api/dataset/`, { responseType: "json" })
         .then((response) => {
           this.dataset = response.data;
+          
+          for (var i = 0; i < 9; i++) {
+            n += i;
+            mifuncion(n);
+          }
+
+
         })
         .catch((error) => {
           console.log(error);
@@ -296,15 +321,7 @@ export default {
 
     //Metodo que se encarga de contar las palabras de un comentario
     contarPalabras(coment) {
-      let primerBlanco = /^ /;
-      let ultimoBlanco = / $/;
-      variosBlancos = /[ ]+/g;
-
-      coment = coment.replace(variosBlancos, " ");
-      coment = coment.replace(primerBlanco, "");
-      coment = coment.replace(ultimoBlanco, "");
-      let textoTroceado = coment.split(coment, " ");
-      this.cantidad_palabras = textoTroceado.length;
+      this.cantidad_palabras = coment.split(" ").length;
     },
 
     tieneComentarios_repetidos() {
