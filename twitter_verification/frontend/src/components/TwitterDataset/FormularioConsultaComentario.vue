@@ -256,34 +256,31 @@ export default {
       ],
     };
   },
+
+  created: function () {
+      axios
+        .get(`http://localhost:8000/api/dataset/`, { responseType: "json" })
+        .then((response) => {
+          this.dataset = response.data;
+          })
+        .catch((error) => {
+          console.log(error);
+        });
+  },
+
   methods: {
+
     onSubmit(evt) {
       evt.preventDefault();
-      //var respuesta = [];
-      //this.consultarDatasetCompleto(evt);
+      var contador = 0;
+
+      this.contarPalabras(this.comentario);
+      this.tieneComentarios_repetidos();
+      console.log(this.comentarios_repetidos);
 
       //Validacion para el campo cantidad_palabras
-      this.contarPalabras(this.comentario);
       //this.tieneComentarios_repetidos();
       //this.tieneInsultosLinks();
-
-      // var primerBlanco = /^ /;
-      // var ultimoBlanco = / $/;
-      // var variosBlancos = /[ ]+/g;
-
-      // this.comentario = this.comentario.replace(variosBlancos, " ");
-      // this.comentario = this.comentario.replace(primerBlanco, "");
-      // this.comentario = this.comentario.replace(ultimoBlanco, "");
-      // var textoTroceado = this.comentario.split(this.comentario, " ");
-      // this.cantidad_palabras = textoTroceado.length;
-
-
-
-      // console.log(typeof this.comentario);
-      // console.log(this.cantidad_palabras);
-
-
-
 
       //var path = //`http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/${this.comentarios_repetidos}/${this.insultos}/${this.emoticones}/${this.multimedia}`;
       var path = `http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/`;
@@ -292,27 +289,7 @@ export default {
         .get(path, { responseType: "json" })
         .then((response) => {
           //respuesta = [ ...response.data];
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    consultarDatasetCompleto(evt) {
-      evt.preventDefault();
-
-      axios
-        .get(`http://localhost:8000/api/dataset/`, { responseType: "json" })
-        .then((response) => {
-          this.dataset = response.data;
-          
-          for (var i = 0; i < 9; i++) {
-            n += i;
-            mifuncion(n);
-          }
-
-
+          //console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -324,12 +301,12 @@ export default {
       this.cantidad_palabras = coment.split(" ").length;
     },
 
+    //Comparar repetidos
     tieneComentarios_repetidos() {
-      for (var i = 0; i < this.dataset.length; i++) {
-        if (this.comentario == this.dataset[i].comentario) {
-          this.comentarios_repetidos = 1;
-          break;
-        }
+      for (var i = 0; i < 5; i++) {
+            if (this.comentario == String(this.dataset[i].comentario)) {
+              this.comentarios_repetidos += 1;  
+            } 
       }
     },
 
