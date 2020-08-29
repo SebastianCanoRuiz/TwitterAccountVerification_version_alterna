@@ -272,31 +272,36 @@ export default {
 
     onSubmit(evt) {
       evt.preventDefault();
-      var contador = 0;
+      if(this.comentario == ""){
+        alert("Primero ingrese un comentario.")
+      } else {
+          this.contarPalabras(this.comentario);
+          this.tieneComentarios_repetidos();
+          this.tieneEmoticones();
+          this.tieneMultimedia();
+          this.tieneLinks();
+          this.tieneInsultos();
+          this.tieneComentarios_raros();
 
-      //this.contarPalabras(this.comentario);
-      //this.tieneComentarios_repetidos();
-      //this.tieneEmoticones();
-      //this.tieneMultimedia();
-      //this.tieneLinks();
-      //this.tieneInsultos();
-      this.tieneComentarios_raros();
+          var path = `http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/${this.comentarios_repetidos}/${this.insultos}/${this.emoticones}/${this.multimedia}/${this.links}/${this.comentarios_raros}`;
+          // var path = `http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/`;
 
-      //var path = //`http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/${this.comentarios_repetidos}/${this.insultos}/${this.emoticones}/${this.multimedia}`;
-      var path = `http://localhost:8000/api/datos-twitter/${this.cantidad_palabras}/`;
-
-      axios
-        .get(path, { responseType: "json" })
-        .then((response) => {
-          //respuesta = [ ...response.data];
-          //console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-        this.reiniciarValores();
-
-
+          axios
+            .get(path, { responseType: "json" })
+            .then((response) => {
+              if(String(response.data[0][1]) == "0"){
+                alert("El comentario corresponde a una cuenta que cumple\nlas condiciones para ser Verdadera")
+              } else {
+                alert("El comentario corresponde a una cuenta que cumple\nlas condiciones para ser Falsa")
+              }          
+              //respuesta = [ ...response.data];
+              //console.log(response.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+            this.reiniciarValores();
+      }
     },
 
     reiniciarValores(){

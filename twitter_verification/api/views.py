@@ -70,15 +70,15 @@ def generarKmeans(*args, **kwargs):
     df.insert(1, 'comentario', comentario)
 
     #  *************************************************************** Etiquetar nuevos valores  *******************************************************
-    perfil = 'jsh7590cr'
+    perfil = 'Danna'
     comentario = 'el peluca sabpeeee :3'
-    cant_palabras = 4.0
-    comentarios_repetidos = 0.0
-    insultos = 0.0
-    emoticones = 1.0
-    multimedia = 0.0
-    links = 0.0
-    comentarios_raros = 0.0
+    cant_palabras = kwargs.get('cantidad_palabras')
+    comentarios_repetidos = kwargs.get('comentarios_repetidos')
+    insultos = kwargs.get('insultos')
+    emoticones = kwargs.get('emoticones')
+    multimedia = kwargs.get('multimedia')
+    links = kwargs.get('links')
+    comentarios_raros = kwargs.get('comentarios_raros')
 
     # Dataframe de una linea para testear el etiquetado
     nuevoDF = pd.DataFrame([[perfil, comentario, cant_palabras, comentarios_repetidos,
@@ -116,6 +116,5 @@ def generarKmeans(*args, **kwargs):
     # X_new = pd.DataFrame([[cant_palabras_n, comentarios_repetidos_n, insultos_n, emoticones_n, multimedia_n, links_n, comentarios_raros_n]])
     new_labels = kmeans.predict(X_new)
 
-    #data = list({str(new_labels)})
-    data = list({kwargs.get('cantidad_palabras')})
+    data = list({str(new_labels)})
     return JsonResponse(data, safe=False)
